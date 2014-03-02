@@ -1,17 +1,17 @@
-package HexNations.Region;
+package hexNations.Region;
 
-import TroysCode.Constants;
-import TroysCode.Tools;
-import TroysCode.hub;
+import tools.RandTools;
+import hexNations.Constants;
+import hexNations.Main;
 
 public class AI implements Constants
 	{
 		Player p;
-		private byte[][] reachable = new byte[hub.region.xRegions][hub.region.yRegions];
+		private byte[][] reachable = new byte[Main.region.xRegions][Main.region.yRegions];
 
 		private byte pathValue = 0;
-		private byte[][] mapValues = new byte[hub.region.xRegions][hub.region.yRegions];
-		private byte[][] path = new byte[hub.region.xRegions][hub.region.yRegions];
+		private byte[][] mapValues = new byte[Main.region.xRegions][Main.region.yRegions];
+		private byte[][] path = new byte[Main.region.xRegions][Main.region.yRegions];
 
 		private byte objective = GROW;
 
@@ -19,8 +19,8 @@ public class AI implements Constants
 			{
 				p = player;
 
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
 						reachable[i][j] = FALSE;
 			}
 
@@ -42,35 +42,35 @@ public class AI implements Constants
 
 		private void grow()
 			{
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
 						if (reachable[i][j] == TRUE)
-							if (hub.region.tiles[i][j].meta[ID] == FARMLAND[ID] || hub.region.tiles[i][j].meta[ID] == VILLAGE[ID]
-									|| hub.region.tiles[i][j].meta[ID] == FOREST[ID])
-								if (Tools.randPercent() > 99)
+							if (Main.region.tiles[i][j].meta[ID] == FARMLAND[ID] || Main.region.tiles[i][j].meta[ID] == VILLAGE[ID]
+									|| Main.region.tiles[i][j].meta[ID] == FOREST[ID])
+								if (RandTools.randPercent() > 99)
 									{
-										hub.region.tiles[i][j].attackTile(p.playerNum);
+										Main.region.tiles[i][j].attackTile(p.playerNum);
 										return;
 									}
 				calculateReach();
 
 				if (pathValue < 0)
 					{
-						for (int i = 0; i < hub.region.xRegions; i++)
-							for (int j = 0; j < hub.region.yRegions; j++)
+						for (int i = 0; i < Main.region.xRegions; i++)
+							for (int j = 0; j < Main.region.yRegions; j++)
 								if (path[i][j] == pathValue)
 									{
-										hub.region.tiles[i][j].attackTile(p.playerNum);
-										if (hub.region.tiles[i][j].ownerNum == p.playerNum)
+										Main.region.tiles[i][j].attackTile(p.playerNum);
+										if (Main.region.tiles[i][j].ownerNum == p.playerNum)
 											pathValue++;
 									}
 					}
 				else
 					{
-						for (int i = 0; i < hub.region.xRegions; i++)
-							for (int j = 0; j < hub.region.yRegions; j++)
+						for (int i = 0; i < Main.region.xRegions; i++)
+							for (int j = 0; j < Main.region.yRegions; j++)
 								if (p.discovered[i][j] != UNDISCOVERED)
-									if (hub.region.tiles[i][j].meta[PRODUCTIVITY] > 1)
+									if (Main.region.tiles[i][j].meta[PRODUCTIVITY] > 1)
 										{
 											//calculatePathTo(i, j);
 											return;
@@ -216,10 +216,10 @@ public class AI implements Constants
 
 		private void calculateReach()
 			{
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
 						if (p.discovered[i][j] == DISCOVERED)
-							if (hub.region.tiles[i][j].isConnectedToCapital(p.playerNum) && hub.region.tiles[i][j].ownerNum != p.playerNum)
+							if (Main.region.tiles[i][j].isConnectedToCapital(p.playerNum) && Main.region.tiles[i][j].ownerNum != p.playerNum)
 								reachable[i][j] = TRUE;
 							else
 								reachable[i][j] = FALSE;

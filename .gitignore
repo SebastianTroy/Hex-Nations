@@ -1,0 +1,19 @@
+Hex Nations/bin
+
+Hex Nations/.settings
+
+Hex Nations/.classpath
+
+Hex Nations/.project
+
+
+
+*.class
+
+
+
+# Package Files #
+
+*.war
+
+*.ear

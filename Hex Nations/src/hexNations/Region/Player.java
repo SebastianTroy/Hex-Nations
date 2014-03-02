@@ -1,15 +1,16 @@
-package HexNations.Region;
+package hexNations.Region;
+
+import hexNations.Constants;
+import hexNations.Images;
+import hexNations.Main;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
-
-import TroysCode.Constants;
-import TroysCode.hub;
 
 public class Player implements Constants
 	{
-		public ArrayList<infoPop> infoPops = new ArrayList<infoPop>();
+		public ArrayList<InfoPop> infoPops = new ArrayList<InfoPop>();
 
 		public byte playerNum;
 		public byte status = PLAYING;
@@ -28,21 +29,21 @@ public class Player implements Constants
 		private int capX;
 		private int capY;
 
-		public byte[][] discovered = new byte[hub.region.xRegions][hub.region.yRegions];
+		public byte[][] discovered = new byte[Main.region.xRegions][Main.region.yRegions];
 
 		public Player(byte playerNum)
 			{
 				this.playerNum = playerNum;
 				if (playerNum == NATURE)
 					{
-						for (int x = 0; x < hub.region.xRegions; x++)
-							for (int y = 0; y < hub.region.yRegions; y++)
+						for (int x = 0; x < Main.region.xRegions; x++)
+							for (int y = 0; y < Main.region.yRegions; y++)
 								discovered[x][y] = DISCOVERED;
 						playerType = HUMAN;
 					}
 				else
-					for (int x = 0; x < hub.region.xRegions; x++)
-						for (int y = 0; y < hub.region.yRegions; y++)
+					for (int x = 0; x < Main.region.xRegions; x++)
+						for (int y = 0; y < Main.region.yRegions; y++)
 							discovered[x][y] = UNDISCOVERED;
 			}
 
@@ -55,22 +56,22 @@ public class Player implements Constants
 
 		public void goToCapital()
 			{
-				hub.region.screenY = 30 * (capY - 7.5f);
+				Main.region.screenY = 30 * (capY - 7.5f);
 
 				if (capY % 2 != 0)
-					hub.region.screenX = (40 * (capX - 10));
+					Main.region.screenX = (40 * (capX - 10));
 				else
-					hub.region.screenX = (40 * (capX - 10) - 20);
+					Main.region.screenX = (40 * (capX - 10) - 20);
 			}
 
 		public void goToTile(int x, int y)
 			{
-				hub.region.screenY = 30 * (y - 7.5f);
+				Main.region.screenY = 30 * (y - 7.5f);
 
 				if (y % 2 != 0)
-					hub.region.screenX = (40 * (x - 10));
+					Main.region.screenX = (40 * (x - 10));
 				else
-					hub.region.screenX = (40 * (x - 10) - 20);
+					Main.region.screenX = (40 * (x - 10) - 20);
 			}
 
 		public void tick()
@@ -105,14 +106,14 @@ public class Player implements Constants
 				return resourcePoints;
 			}
 
-		public void renderGui(Graphics g)
+		public void renderGui(Graphics2D g)
 			{
-				g.drawImage(hub.images.gui, 0, 500, hub.renderer);
+				g.drawImage(Images.gui, 0, 500, null);
 				g.setColor(Color.BLACK);
 				float resPoints = resourcePoints / 1000f;
 				g.drawString("" + resPoints, 30, 540);
 				g.drawString(" / " + capacity / 10f, 70, 540);
-				if (hub.DEBUG)
+				if (Main.DEBUG)
 					g.drawString("" + resPerTick, 30, 560);
 
 				g.drawString("" + currentPrice, 200, 540);
@@ -125,9 +126,9 @@ public class Player implements Constants
 				else
 					status = DEFEATED;
 
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
-						if (hub.region.tiles[i][j].ownerNum == this.playerNum && hub.region.tiles[i][j].meta[ID] > 11)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
+						if (Main.region.tiles[i][j].ownerNum == this.playerNum && Main.region.tiles[i][j].meta[ID] > 11)
 							status = PLAYING;
 
 				if (status != PLAYING && this.playerNum != NATURE)
@@ -136,36 +137,36 @@ public class Player implements Constants
 
 		private void loseGame()
 			{
-				for (Player p : hub.region.players)
+				for (Player p : Main.region.players)
 					p.newInfoPop(playerNum, LOST, capX, capY);
-				for (int x = 0; x < hub.region.xRegions; x++)
-					for (int y = 0; y < hub.region.yRegions; y++)
+				for (int x = 0; x < Main.region.xRegions; x++)
+					for (int y = 0; y < Main.region.yRegions; y++)
 						{
 							discovered[x][y] = DISCOVERED;
-							if (hub.region.tiles[x][y].ownerNum == playerNum)
-								hub.region.tiles[x][y].giveToNature(playerNum);
+							if (Main.region.tiles[x][y].ownerNum == playerNum)
+								Main.region.tiles[x][y].giveToNature(playerNum);
 						}
 			}
 
 		public void calculateLOS()
 			{
-				Tile[][] tiles = hub.region.tiles;
-				byte[][] finalValues = new byte[hub.region.xRegions][hub.region.yRegions];
-				byte[][] viewValues = hub.region.mapLOSValues.clone();
+				Tile[][] tiles = Main.region.tiles;
+				byte[][] finalValues = new byte[Main.region.xRegions][Main.region.yRegions];
+				byte[][] viewValues = Main.region.mapLOSValues.clone();
 
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
 						if (discovered[i][j] != UNDISCOVERED)
 							finalValues[i][j] = OBSCURED;
 						else
 							finalValues[i][j] = UNDISCOVERED;
 
-				for (int X = 0; X < hub.region.xRegions; X++)
-					for (int Y = 0; Y < hub.region.yRegions; Y++)
+				for (int X = 0; X < Main.region.xRegions; X++)
+					for (int Y = 0; Y < Main.region.yRegions; Y++)
 						{
-							if (hub.region.tiles[X][Y].ownerNum == playerNum && hub.region.tiles[X][Y].isConnectedToCapital(playerNum))
+							if (Main.region.tiles[X][Y].ownerNum == playerNum && Main.region.tiles[X][Y].isConnectedToCapital(playerNum))
 								{
-									viewValues = hub.region.mapLOSValues.clone();
+									viewValues = Main.region.mapLOSValues.clone();
 									for (int z = 0; z < viewValues.length; z++)
 										viewValues[z] = viewValues[z].clone();
 
@@ -173,53 +174,31 @@ public class Player implements Constants
 									// one)
 									viewValues[X][Y] = (byte) (tiles[X][Y].meta[VIEW] + tiles[X][Y].getBuilding());
 
-									// declare search for line of site
-									// unfinished
+									// declare search for line of site unfinished
 									boolean stillSearching = true;
 
 									while (stillSearching)
 										{
-											// unless there are still tiles to
-											// be
-											// checked will
-											// terminalte loop and return false
+											// unless there are still tiles to be checked will terminate loop and return false
 											stillSearching = false;
 
-											// run through array of bytes to see
-											// if any
-											// need
-											// checking
-											for (int i = 0; i < hub.region.xRegions; i++)
-												for (int j = 0; j < hub.region.yRegions; j++)
+											// run through array of bytes to see if any need checking
+											for (int i = 0; i < Main.region.xRegions; i++)
+												for (int j = 0; j < Main.region.yRegions; j++)
 													{
 														if (viewValues[i][j] > 0 && viewValues[i][j] != VIEWED)
 															{
-																// unchecked
-																// tile found
-																// so declare
-																// still
-																// searching
+																// unchecked tile found so declare still searching
 																stillSearching = true;
 
-																// for each
-																// neighboring
-																// tile, add
-																// view range to
-																// range
-																// of this tile
-																// if it is not
-																// VIEWED
+																// for each neighboring tile, add view range to range of this tile if it is not VIEWED
 
-																// Check left
-																// and right
+																// Check left and right
 																if (viewValues[i + 1][j] < 0)
 																	viewValues[i + 1][j] = (byte) (viewValues[i + 1][j] + viewValues[i][j]);
 																if (viewValues[i - 1][j] < 0)
 																	viewValues[i - 1][j] = (byte) (viewValues[i - 1][j] + viewValues[i][j]);
-																// check above
-																// and below
-																// (if was a
-																// grid)
+																// check above and below (if was a grid)
 																if (viewValues[i][j + 1] < 0)
 																	viewValues[i][j + 1] = (byte) (viewValues[i][j + 1] + viewValues[i][j]);
 																if (viewValues[i][j - 1] < 0)
@@ -227,12 +206,7 @@ public class Player implements Constants
 
 																if (j % 2 != 0)
 																	{
-																		// check
-																		// above
-																		// and
-																		// below
-																		// (odd
-																		// lines)
+																		// check above and below (odd lines)
 																		if (viewValues[i + 1][j + 1] < 0)
 																			viewValues[i + 1][j + 1] = (byte) (viewValues[i + 1][j + 1] + viewValues[i][j]);
 																		if (viewValues[i + 1][j - 1] < 0)
@@ -240,23 +214,14 @@ public class Player implements Constants
 																	}
 																else
 																	{
-																		// check
-																		// above
-																		// and
-																		// below
-																		// (even
-																		// lines)
+																		// check above and below (even lines)
 																		if (viewValues[i - 1][j - 1] < 0)
 																			viewValues[i - 1][j - 1] = (byte) (viewValues[i - 1][j - 1] + viewValues[i][j]);
 																		if (viewValues[i - 1][j + 1] < 0)
 																			viewValues[i - 1][j + 1] = (byte) (viewValues[i - 1][j + 1] + viewValues[i][j]);
 																	}
 
-																// change state
-																// so not
-																// checked
-																// again next
-																// loop
+																// change state so not checked again next loop
 																viewValues[i][j] = VIEWED;
 
 																if (viewValues[i][j] > 0)
@@ -267,13 +232,13 @@ public class Player implements Constants
 										}
 								}
 						}
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
 						discovered[i][j] = finalValues[i][j];
 			}
 
 		public void newInfoPop(byte player, byte type, int x, int y)
 			{
-				infoPops.add(new infoPop(750, 0, hub.images.infoPop[type], type, player, x, y));
+				infoPops.add(new InfoPop(750, 0, Images.infoPop[type], type, player, x, y));
 			}
 	}

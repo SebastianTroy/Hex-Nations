@@ -1,13 +1,13 @@
-package HexNations.Region;
+package hexNations.Region;
 
-import TroysCode.Constants;
-import TroysCode.Tools;
-import TroysCode.hub;
+import tools.RandTools;
+import hexNations.Constants;
+import hexNations.Main;
 
 public class Tile implements Constants
 	{
 		public byte[] meta;
-		public byte frame = (byte) Tools.randInt(0, 6);
+		public byte frame = (byte) RandTools.getInt(0, 6);
 
 		private int x;
 		private int y;
@@ -34,7 +34,7 @@ public class Tile implements Constants
 					return false;
 				if (playerNum != ownerNum)
 					return false;
-				if (hub.region.players[playerNum].getResourcePoints() < priceToBuild(TOWER) * INCREMENT)
+				if (Main.region.players[playerNum].getResourcePoints() < priceToBuild(TOWER) * INCREMENT)
 					return false;
 
 				return true;
@@ -48,7 +48,7 @@ public class Tile implements Constants
 					return false;
 				if (playerNum != ownerNum)
 					return false;
-				if (hub.region.players[playerNum].getResourcePoints() < priceToBuild(FORTIFIED) * INCREMENT)
+				if (Main.region.players[playerNum].getResourcePoints() < priceToBuild(FORTIFIED) * INCREMENT)
 					return false;
 
 				return true;
@@ -76,10 +76,10 @@ public class Tile implements Constants
 			{
 				if (meta[CAPTURABLE] == TRUE && priceToCapture(playerNum) != 0 && isConnectedToCapital(playerNum))
 					{
-						if (hub.region.players[playerNum].useResourcePoint(priceToCapture(playerNum)))
+						if (Main.region.players[playerNum].useResourcePoint(priceToCapture(playerNum)))
 							{
 								if (ownerNum != NATURE)
-									hub.region.players[ownerNum].newInfoPop(ownerNum, ATTACKED, x, y);
+									Main.region.players[ownerNum].newInfoPop(ownerNum, ATTACKED, x, y);
 
 								byte percentNeeded = 0;
 								// if tile is owned, small chance attack
@@ -99,37 +99,37 @@ public class Tile implements Constants
 								// if tile is capitol, very large
 								// chance attack is repelled
 
-								if (Tools.randPercent() > percentNeeded)
+								if (RandTools.randPercent() > percentNeeded)
 									{
 
 										// First deal with previous owner
-										hub.region.players[ownerNum].resPerTick -= meta[PRODUCTIVITY];
-										hub.region.players[ownerNum].capacity -= meta[CAPACITY];
+										Main.region.players[ownerNum].resPerTick -= meta[PRODUCTIVITY];
+										Main.region.players[ownerNum].capacity -= meta[CAPACITY];
 
 										// Deal with intermediates
-										if (Tools.randPercent() > 80 || building == FORTIFIED)
+										if (RandTools.randPercent() > 80 || building == FORTIFIED)
 											building = NONE;
 										ownerNum = playerNum;
 
 										// Then deal with new owner
-										hub.region.players[playerNum].giveResources(resources);
-										hub.region.players[playerNum].resPerTick += meta[PRODUCTIVITY];
-										hub.region.players[playerNum].capacity += meta[CAPACITY];
+										Main.region.players[playerNum].giveResources(resources);
+										Main.region.players[playerNum].resPerTick += meta[PRODUCTIVITY];
+										Main.region.players[playerNum].capacity += meta[CAPACITY];
 
 										// deplete resources
 										resources = 0;
 
 										// calculate new LOS
-										hub.region.players[playerNum].calculateLOS();
+										Main.region.players[playerNum].calculateLOS();
 
 										// if the tile is a capital, check
 										// victory conditions
 										if (meta[ID] > 11)
-											for (Player p : hub.region.players)
+											for (Player p : Main.region.players)
 												p.checkVictoryStatus(playerNum);
 									}
 								else
-									hub.region.players[playerNum].newInfoPop(playerNum, FAILED, x, y);
+									Main.region.players[playerNum].newInfoPop(playerNum, FAILED, x, y);
 							}
 					}
 			}
@@ -141,23 +141,23 @@ public class Tile implements Constants
 						if (oldOwnerNum != NATURE)
 							{
 								// First deal with previous owner
-								if (hub.region.players[oldOwnerNum].status == PLAYING)
+								if (Main.region.players[oldOwnerNum].status == PLAYING)
 									{
-										hub.region.players[ownerNum].resPerTick -= meta[PRODUCTIVITY];
-										hub.region.players[ownerNum].capacity -= meta[CAPACITY];
+										Main.region.players[ownerNum].resPerTick -= meta[PRODUCTIVITY];
+										Main.region.players[ownerNum].capacity -= meta[CAPACITY];
 									}
 
 								// Deal with intermediates
-								if (Tools.randPercent() > 80 || building == FORTIFIED)
+								if (RandTools.randPercent() > 80 || building == FORTIFIED)
 									building = NONE;
 								ownerNum = NATURE;
 
-								hub.region.players[oldOwnerNum].calculateLOS();
+								Main.region.players[oldOwnerNum].calculateLOS();
 
 								// if tile is a capital, check victory
 								// conditions
 								if (meta[ID] > 11)
-									for (Player p : hub.region.players)
+									for (Player p : Main.region.players)
 										p.checkVictoryStatus(NATURE);
 							}
 					}
@@ -168,12 +168,12 @@ public class Tile implements Constants
 				if (playerNum == NATURE)
 					return false;
 
-				Tile[][] tiles = hub.region.tiles;
-				byte[][] state = new byte[hub.region.xRegions][hub.region.yRegions];
+				Tile[][] tiles = Main.region.tiles;
+				byte[][] state = new byte[Main.region.xRegions][Main.region.yRegions];
 
 				// create array of bytes, one for each tile
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
 						state[i][j] = UNCONNECTED;
 
 				// declare current tile needs checking (this one)
@@ -190,8 +190,8 @@ public class Tile implements Constants
 
 						// run through array of bytes to see if any need
 						// checking
-						for (int i = 0; i < hub.region.xRegions; i++)
-							for (int j = 0; j < hub.region.yRegions; j++)
+						for (int i = 0; i < Main.region.xRegions; i++)
+							for (int j = 0; j < Main.region.yRegions; j++)
 								{
 									if (state[i][j] == UNCHECKED)
 										{

@@ -1,4 +1,4 @@
-package TroysCode;
+package hexNations;
 
 import java.awt.Color;
 
@@ -151,5 +151,4 @@ public interface Constants
 		public static final Color P4_MAP = new Color(0, 4, 0);
 		public static final Color P5_MAP = new Color(0, 5, 0);
 		public static final Color P6_MAP = new Color(0, 6, 0);
-
 	}

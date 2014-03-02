@@ -1,9 +1,9 @@
-package HexNations.Region;
+package hexNations.Region;
+
+import hexNations.Constants;
+import hexNations.Main;
 
 import java.awt.image.BufferedImage;
-
-import TroysCode.Constants;
-import TroysCode.hub;
 
 public class Region implements Constants
 	{
@@ -81,14 +81,14 @@ public class Region implements Constants
 		private void setMapLOSValues()
 			{
 				// create array of bytes, one byte for each tile
-				for (int i = 0; i < hub.region.xRegions; i++)
-					for (int j = 0; j < hub.region.yRegions; j++)
+				for (int i = 0; i < Main.region.xRegions; i++)
+					for (int j = 0; j < Main.region.yRegions; j++)
 						{
-							mapLOSValues[i][j] = hub.region.tiles[i][j].meta[BLOCK];
+							mapLOSValues[i][j] = Main.region.tiles[i][j].meta[BLOCK];
 
 							// declare boundary water blocks
 							// as viewed
-							if (i == 0 || j == 0 || i == hub.region.xRegions - 1 || j == hub.region.yRegions - 1)
+							if (i == 0 || j == 0 || i == Main.region.xRegions - 1 || j == Main.region.yRegions - 1)
 								mapLOSValues[i][j] = 0;
 						}
 			}

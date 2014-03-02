@@ -1,20 +1,18 @@
-package HexNations.Region;
+package hexNations.Region;
 
 import java.awt.image.BufferedImage;
 
-import TroysCode.T.TButton;
+import tComponents.components.TButton;
 
-public class infoPop extends TButton
+public class InfoPop extends TButton
 	{
-		private static final long serialVersionUID = 1L;
-
 		public byte type;
 		public byte player;
 
 		public int tileX;
 		public int tileY;
 
-		public infoPop(double x, double y, BufferedImage image, byte type, byte player, int tileX, int tileY)
+		public InfoPop(double x, double y, BufferedImage image, byte type, byte player, int tileX, int tileY)
 			{
 				super(x, y, image);
 				this.type = type;
@@ -22,5 +20,4 @@ public class infoPop extends TButton
 				this.tileX = tileX;
 				this.tileY = tileY;
 			}
-
 	}
