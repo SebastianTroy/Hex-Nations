@@ -1,13 +1,13 @@
 package hexNations.Region;
 
-import tools.RandTools;
+import tools.Rand;
 import hexNations.Constants;
 import hexNations.Main;
 
 public class Tile implements Constants
 	{
 		public byte[] meta;
-		public byte frame = (byte) RandTools.getInt(0, 6);
+		public byte frame = (byte) Rand.int_(0, 6);
 
 		private int x;
 		private int y;
@@ -99,7 +99,7 @@ public class Tile implements Constants
 								// if tile is capitol, very large
 								// chance attack is repelled
 
-								if (RandTools.randPercent() > percentNeeded)
+								if (Rand.percent() > percentNeeded)
 									{
 
 										// First deal with previous owner
@@ -107,7 +107,7 @@ public class Tile implements Constants
 										Main.region.players[ownerNum].capacity -= meta[CAPACITY];
 
 										// Deal with intermediates
-										if (RandTools.randPercent() > 80 || building == FORTIFIED)
+										if (Rand.percent() > 80 || building == FORTIFIED)
 											building = NONE;
 										ownerNum = playerNum;
 
@@ -148,7 +148,7 @@ public class Tile implements Constants
 									}
 
 								// Deal with intermediates
-								if (RandTools.randPercent() > 80 || building == FORTIFIED)
+								if (Rand.percent() > 80 || building == FORTIFIED)
 									building = NONE;
 								ownerNum = NATURE;
 

@@ -1,6 +1,6 @@
 package hexNations.Region;
 
-import tools.RandTools;
+import tools.Rand;
 import hexNations.Constants;
 import hexNations.Main;
 
@@ -47,7 +47,7 @@ public class AI implements Constants
 						if (reachable[i][j] == TRUE)
 							if (Main.region.tiles[i][j].meta[ID] == FARMLAND[ID] || Main.region.tiles[i][j].meta[ID] == VILLAGE[ID]
 									|| Main.region.tiles[i][j].meta[ID] == FOREST[ID])
-								if (RandTools.randPercent() > 99)
+								if (Rand.percent() > 99)
 									{
 										Main.region.tiles[i][j].attackTile(p.playerNum);
 										return;

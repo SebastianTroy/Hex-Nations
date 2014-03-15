@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import tools.NumTools;
-import tools.RandTools;
+import tools.Rand;
 
 public class MapGenerator implements Constants
 	{
@@ -68,15 +68,15 @@ public class MapGenerator implements Constants
 				int numMineHexs = 0;
 				while (Region.MINE_PERCENT * percent > numMineHexs)
 					{
-						int x = RandTools.getInt(0, width);
-						int y = RandTools.getInt(0, height);
+						int x = Rand.int_(0, width);
+						int y = Rand.int_(0, height);
 
 						int sizeX = 1;
 						int sizeY = 1;
 
-						if (RandTools.randPercent() > 80)
+						if (Rand.percent() > 80)
 							sizeX++;
-						else if (RandTools.randPercent() > 80)
+						else if (Rand.percent() > 80)
 							sizeY++;
 
 						g.setColor(ORE_MAP);
@@ -97,10 +97,10 @@ public class MapGenerator implements Constants
 				int numSandHexs = 0;
 				while (Main.region.SAND_PERCENT * percent > numSandHexs)
 					{
-						int x = RandTools.getInt(0, width);
-						int y = RandTools.getInt(0, height);
-						int sizeX = RandTools.getInt(1, 5);
-						int sizeY = RandTools.getInt(1, 5);
+						int x = Rand.int_(0, width);
+						int y = Rand.int_(0, height);
+						int sizeX = Rand.int_(1, 5);
+						int sizeY = Rand.int_(1, 5);
 
 						g.setColor(SAND_MAP);
 						g.fillOval(x, y, sizeX, sizeY);
@@ -120,10 +120,10 @@ public class MapGenerator implements Constants
 				int numGrassHexs = 0;
 				while (Main.region.GRASS_PERCENT * percent > numGrassHexs)
 					{
-						int x = RandTools.getInt(0, width);
-						int y = RandTools.getInt(0, height);
-						int sizeX = RandTools.getInt(2, 9);
-						int sizeY = RandTools.getInt(2, 9);
+						int x = Rand.int_(0, width);
+						int y = Rand.int_(0, height);
+						int sizeX = Rand.int_(2, 9);
+						int sizeY = Rand.int_(2, 9);
 
 						g.setColor(GRASS_MAP);
 						g.fillOval(x, y, sizeX, sizeY);
@@ -138,7 +138,7 @@ public class MapGenerator implements Constants
 					}
 				for (int pixX = 0; pixX < width; pixX++)
 					for (int pixY = 0; pixY < height; pixY++)
-						if (RandTools.randPercent() < Region.MEADOW_PERCENT)
+						if (Rand.percent() < Region.MEADOW_PERCENT)
 							{
 								g.setColor(MEADOW_MAP);
 								g.fillRect(pixX, pixY, 1, 1);
@@ -150,9 +150,9 @@ public class MapGenerator implements Constants
 				int numForestHexs = 0;
 				while (Main.region.FOREST_PERCENT * percent > numForestHexs)
 					{
-						int x = RandTools.getInt(0, width);
-						int y = RandTools.getInt(0, height);
-						int radius = RandTools.getInt(4, 11);
+						int x = Rand.int_(0, width);
+						int y = Rand.int_(0, height);
+						int radius = Rand.int_(4, 11);
 
 						g.setColor(FOREST_MAP);
 						for (int i = x; i < x + radius; i++)
@@ -160,7 +160,7 @@ public class MapGenerator implements Constants
 								{
 									if (i >= 0 && j >= 0 && i < width && j < height)
 										if (map.getRGB(i, j) != MOUNTAIN_MAP.getRGB() && map.getRGB(i, j) != WATER_MAP.getRGB())
-											if (RandTools.getFloat(0, radius) < radius - NumTools.distance(i, j, x, y))
+											if (Rand.float_(0, radius) < radius - NumTools.distance(i, j, x, y))
 												g.fillRect(i, j, 1, 1);
 								}
 
@@ -179,8 +179,8 @@ public class MapGenerator implements Constants
 				int numVillageHexs = 0;
 				while (Region.VILLAGE_PERCENT * percent > numVillageHexs)
 					{
-						int x = RandTools.getInt(0, width);
-						int y = RandTools.getInt(0, height);
+						int x = Rand.int_(0, width);
+						int y = Rand.int_(0, height);
 
 						g.setColor(VILLAGE_MAP);
 						g.fillRect(x, y, 1, 1);
@@ -201,14 +201,14 @@ public class MapGenerator implements Constants
 					for (int pixY = 0; pixY < height; pixY++)
 						if (map.getRGB(pixX, pixY) == VILLAGE_MAP.getRGB())
 							{
-								int radius = RandTools.getInt(2, 3);
+								int radius = Rand.int_(2, 3);
 
 								g.setColor(FARM_MAP);
 								for (int i = pixX - radius; i < pixX + radius; i++)
 									for (int j = pixY - radius; j < pixY + radius; j++)
 										if (i >= 0 && j >= 0 && i < width && j < height)
 											if (map.getRGB(i, j) != MOUNTAIN_MAP.getRGB() && map.getRGB(i, j) != WATER_MAP.getRGB())
-												if (RandTools.getFloat(0, radius) < radius - NumTools.distance(i, j, pixX, pixY))
+												if (Rand.float_(0, radius) < radius - NumTools.distance(i, j, pixX, pixY))
 													if (map.getRGB(i, j) == GRASS_MAP.getRGB())
 														g.fillRect(i, j, 1, 1);
 
@@ -220,22 +220,22 @@ public class MapGenerator implements Constants
 				int numWaterAndMarshHexs = 0;
 				while (Main.region.WATER_MARSH_PERCENT * percent > numWaterAndMarshHexs)
 					{
-						boolean isWater = (RandTools.randPercent() > 30 ? true : false);
+						boolean isWater = (Rand.percent() > 30 ? true : false);
 
-						int x = RandTools.getInt(0, width);
-						int y = RandTools.getInt(0, height);
-						int numCircles = isWater ? RandTools.getInt(4, 7) : 10;
+						int x = Rand.int_(0, width);
+						int y = Rand.int_(0, height);
+						int numCircles = isWater ? Rand.int_(4, 7) : 10;
 
 						for (int num = 0; num < numCircles; num++)
-							if (RandTools.randPercent() > (isWater ? 90 : 60))
+							if (Rand.percent() > (isWater ? 90 : 60))
 								{
 									g.setColor(isWater ? SAND_MAP : MANGROVE_MAP);
-									g.fillOval(x + RandTools.getInt(-2, 2), y + RandTools.getInt(-2, 2), RandTools.getInt(2, 4), RandTools.getInt(2, 4));
+									g.fillOval(x + Rand.int_(-2, 2), y + Rand.int_(-2, 2), Rand.int_(2, 4), Rand.int_(2, 4));
 								}
 							else
 								{
 									g.setColor(isWater ? WATER_MAP : MARSH_MAP);
-									g.fillOval(x + RandTools.getInt(-2, 2), y + RandTools.getInt(-2, 2), RandTools.getInt(2, 4), RandTools.getInt(2, 4));
+									g.fillOval(x + Rand.int_(-2, 2), y + Rand.int_(-2, 2), Rand.int_(2, 4), Rand.int_(2, 4));
 								}
 
 						numWaterAndMarshHexs = 0;
@@ -267,7 +267,7 @@ public class MapGenerator implements Constants
 				int[] xVals = new int[6];
 				int[] yVals = new int[6];
 
-				boolean horizontal = RandTools.getBool();
+				boolean horizontal = Rand.bool();
 
 				xVals[0] = (int) (horizontal ? (width / 8f) : (width / 8f) * 7);
 				yVals[0] = (int) (height / 8f);
