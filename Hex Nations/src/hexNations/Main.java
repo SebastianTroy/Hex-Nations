@@ -1,6 +1,5 @@
 package hexNations;
 
-import hexNations.game.Region;
 import hexNations.network.RemoteMethods;
 import hexNations.network.Server;
 import hexNations.windows.GameWindow;
@@ -28,9 +27,11 @@ public class Main extends TCode
 		 */
 		public static GameWindow game;
 
+		/**
+		 * This object is our server which accepts remote method calls
+		 */
 		public static RemoteMethods server;
 		
-		public static Region region;
 
 		/**
 		 * Program Entry

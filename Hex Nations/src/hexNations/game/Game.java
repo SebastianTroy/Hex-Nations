@@ -2,13 +2,24 @@ package hexNations.game;
 
 import java.rmi.RemoteException;
 
+import tools.WindowTools;
+import hexNations.Main;
 import hexNations.network.RemoteMethods;
 
 public class Game implements RemoteMethods
 	{
 		public Game()
 			{
-				
+				try
+					{
+						Main.server.addClient(this);
+					}
+				catch (RemoteException e)
+					{
+						if (!Main.DEBUG)
+							WindowTools.debugWindow("Failed to Connect to Server");
+						e.printStackTrace();
+					}
 			}
 
 		@Override
@@ -20,7 +31,7 @@ public class Game implements RemoteMethods
 		@Override
 		public void sendTestMessage(String message) throws RemoteException
 			{
-				System.out.println("Client has recieved Messgae");
+				System.out.println("Server Says: " + message);
 			}
 
 		@Override

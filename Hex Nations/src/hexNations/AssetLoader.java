@@ -74,9 +74,9 @@ public class AssetLoader extends LoadingScreen
 						for (int i = 0; i < infoPop.length; i++)
 							infoPop[i] = infoPopSheet.getSubimage(i * 40, 0, 40, 40);
 
-						menuButtons = new BufferedImage[4];
+						menuButtons = new BufferedImage[3];
 						for (int i = 0; i < menuButtons.length; i++)
-							menuButtons[i] = menuButtonSheet.getSubimage(0, i * 150, 800, 150);
+							menuButtons[i] = menuButtonSheet.getSubimage(0, i * 200, 800, 200);
 
 						helpSlides = new BufferedImage[8];
 						for (int i = 0; i < helpSlides.length; i++)

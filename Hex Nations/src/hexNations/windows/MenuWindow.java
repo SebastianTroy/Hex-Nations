@@ -12,7 +12,6 @@ public class MenuWindow extends RenderableObject
 
 		TButton createGameButton;
 		TButton joinGameButton;
-		TButton options;
 		TButton help;
 
 		@Override
@@ -25,37 +24,18 @@ public class MenuWindow extends RenderableObject
 							{
 								changeRenderableObject(new HostCustomisationWindow());
 
-								/*
-								 * -Create custom game
-								 * -Set up the server
-								 * -Add the players
-								 * -Prepare the game
-								 */
 							}
 					};
-				joinGameButton = new TButton(0, 0, AssetLoader.menuButtons[2])
+				joinGameButton = new TButton(0, 0, AssetLoader.menuButtons[1])
 					{
 						@Override
 						public void pressed()
 							{
 								changeRenderableObject(new ClientCustomisationWindow());
-								
-								/*
-								 * -join the server
-								 * -Add the player to the server
-								 * -Prepare the game
-								 */
+
 							}
 					};
-				options = new TButton(0, 0, AssetLoader.menuButtons[1])
-					{
-						@Override
-						public void pressed()
-							{
-								;/* TODO make options menu? hub.renderer.changeRenderableObject(hub.options); */
-							}
-					};
-				help = new TButton(0, 0, AssetLoader.menuButtons[3])
+				help = new TButton(0, 0, AssetLoader.menuButtons[2])
 					{
 						@Override
 						public void pressed()
@@ -69,7 +49,6 @@ public class MenuWindow extends RenderableObject
 				add(mainMenu);
 				mainMenu.add(createGameButton, false);
 				mainMenu.add(joinGameButton, false);
-				mainMenu.add(options, false);
 				mainMenu.add(help, false);
 
 				mainMenu.setBorderSize(0);
