@@ -5,21 +5,24 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import tCode.LoadingScreen;
 import tools.WindowTools;
 
 /**
- * The {@link Images} Class loads from file and holds images in the form of {@link BufferedImage}'s
+ * The {@link AssetLoader} Class loads from file and holds images in the form of {@link BufferedImage}'s
  * <p>
  * Declare and load any images you wish to use, in your program, in this class.
  * 
  * @author Sebastian Troy
  */
-public class Images
+public class AssetLoader extends LoadingScreen
 	{
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * the directory for the images folder
 		 */
-		private static final String imageDir = "/images";
+		static final String imageDirectory = "/assets";
 
 		// Gameplay images
 		public static BufferedImage[][] tiles;
@@ -36,23 +39,35 @@ public class Images
 		public static BufferedImage begin;
 
 		/**
-		 * When an instance of the {@link Images} class is created, it automatically loads all of the Images needed for the program
+		 * When an instance of the {@link AssetLoader} class is created, it automatically loads all of the Images needed for the program
 		 */
-		public Images()
+		public AssetLoader(BufferedImage loadingScreenLogo)
 			{
+				super(loadingScreenLogo);
+			}
+
+		@Override
+		protected void loadAll()
+			{				
 				try
 					{
-						Class<Images> imageClass = Images.class;
+						setPercentLoaded(0);
+						setCurrentTaskString("Loading Sprite Sheets");
+						
+						Class<AssetLoader> imageClass = AssetLoader.class;
 
-						BufferedImage tileSheet = ImageIO.read(imageClass.getResource(imageDir + "/tiles.png"));
-						BufferedImage boundarySheet = ImageIO.read(imageClass.getResource(imageDir + "/Boundaries.png"));
-						BufferedImage menuButtonSheet = ImageIO.read(imageClass.getResource(imageDir + "/menuButtons.png"));
-						BufferedImage iconsSheet = ImageIO.read(imageClass.getResource(imageDir + "/icons.png"));
-						BufferedImage helpSheet = ImageIO.read(imageClass.getResource(imageDir + "/help.png"));
-						BufferedImage infoPopSheet = ImageIO.read(imageClass.getResource(imageDir + "/infoPop.png"));
+						BufferedImage tileSheet = ImageIO.read(imageClass.getResource(imageDirectory + "/tiles.png"));
+						BufferedImage boundarySheet = ImageIO.read(imageClass.getResource(imageDirectory + "/Boundaries.png"));
+						BufferedImage menuButtonSheet = ImageIO.read(imageClass.getResource(imageDirectory + "/menuButtons.png"));
+						BufferedImage iconsSheet = ImageIO.read(imageClass.getResource(imageDirectory + "/icons.png"));
+						BufferedImage helpSheet = ImageIO.read(imageClass.getResource(imageDirectory + "/help.png"));
+						BufferedImage infoPopSheet = ImageIO.read(imageClass.getResource(imageDirectory + "/infoPop.png"));
 
-						gui = ImageIO.read(imageClass.getResource(imageDir + "/GUI.jpeg"));
-						begin = ImageIO.read(imageClass.getResource(imageDir + "/begin.png"));
+						setPercentLoaded(50);
+						setCurrentTaskString("Extracting Images");
+
+						gui = ImageIO.read(imageClass.getResource(imageDirectory + "/GUI.jpeg"));
+						begin = ImageIO.read(imageClass.getResource(imageDirectory + "/begin.png"));
 
 						infoPop = new BufferedImage[3];
 						for (int i = 0; i < 3; i++)
@@ -78,12 +93,14 @@ public class Images
 						boundaries = new BufferedImage[6];
 						for (int i = 0; i < 6; i++)
 							boundaries[i] = boundarySheet.getSubimage(i * 40, 0, 40, 40);
+						
+						setPercentLoaded(100);
+						setCurrentTaskString("Done");
 					}
 				catch (IOException IOe)
 					{
 						WindowTools.debugWindow("IO exception at loadImages");
 						IOe.printStackTrace();
 					}
-
 			}
 	}

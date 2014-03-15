@@ -1,14 +1,18 @@
 package hexNations;
 
-import hexNations.Region.Region;
+import hexNations.network.Server;
+import hexNations.region.Region;
+import hexNations.windows.GameWindow;
+import hexNations.windows.MenuWindow;
+
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import tCode.TCode;
+import tools.Rand;
 
 /**
- * The {@link Main} Class Contains the main method.
- * <p>
- * This Class also contains the instances of {@link Frame}, {@link Renderer}, {@link InputReciever} and {@link Images}, which are required for Troy's Code to
- * work.
- * 
  * @author Sebastian Troy
  */
 public class Main extends TCode
@@ -19,7 +23,11 @@ public class Main extends TCode
 		 */
 		public static String textureFolderName = "default";
 
-		public static Server background;
+		/**
+		 * This object represents the game being played, it will be calculated separately both on the Server and Client side as every player's actions are first
+		 * processed by the {@link Server}
+		 */
+		public static GameWindow game;
 
 		public static Region region;
 
@@ -28,20 +36,30 @@ public class Main extends TCode
 		 */
 		public static void main(String[] args)
 			{
-				new Images();
-				
 				new Main(800, 600, true, false);
 			}
 
 		public Main(int width, int height, boolean framed, boolean resizable)
 			{
-				super(width, height, framed, resizable);			
-				
+				super(width, height, framed, resizable);
+
 				DEBUG = true;
-				
+
 				programName = "HexNations";
 				versionNumber = "2.0_alpha";
 				
-				begin(new MainMenu());
+				try
+					{
+						new AssetLoader(ImageIO.read(getClass().getResource(AssetLoader.imageDirectory + "/tiles.png"))).loadResources();
+					}
+				catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				
+				// Set a random icon from the types of tiles available in game
+				frame.addIconImage(AssetLoader.tiles[Rand.int_(0, AssetLoader.tiles.length)][0]);
+
+				begin(new MenuWindow());
 			}
 	}
