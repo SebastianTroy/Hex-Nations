@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 
 import tCode.RenderableObject;
 import tComponents.components.TButton;
@@ -28,12 +29,8 @@ public class ClientCustomisationWindow extends RenderableObject
 					{
 						try
 							{
-								Main.server = (RemoteMethods) Naming.lookup("Server");
+								Main.server = (RemoteMethods) LocateRegistry.getRegistry(ipField.getText()).lookup("Server");
 								Main.server.checkAlive();
-							}
-						catch (MalformedURLException e)
-							{
-								e.printStackTrace();
 							}
 						catch (RemoteException e)
 							{
