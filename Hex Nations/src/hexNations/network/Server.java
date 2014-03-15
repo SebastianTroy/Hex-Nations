@@ -27,7 +27,32 @@ public class Server extends TRemoteObject implements RemoteMethods
 		public Server(String serverName, int numPlayers) throws RemoteException
 			{
 				super(serverName);
+				clientGames = new RemoteMethods[numPlayers];
 			}
+
+		@Override
+		public void addClient(RemoteMethods client) throws RemoteException
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+		@Override
+		public void sendTestMessage(String message) throws RemoteException
+			{
+				for (int i = 0; i < clientGames.length; i++)
+					getClient(i).sendTestMessage(message);
+			}
+
+		@Override
+		public void checkAlive() throws RemoteException
+			{
+				System.out.println("Pinged by Client");
+			}
+
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		/**
 		 * Used to retrieve stubs for client game instances. Guarantees a valid stub reference.
@@ -58,16 +83,5 @@ public class Server extends TRemoteObject implements RemoteMethods
 							}
 					}
 				return clientGames[playerNumber];
-			}
-
-		@Override
-		public void checkAlive() throws RemoteException
-			{}
-
-		@Override
-		public void testSendMessate(String message)
-			{
-				for (int i = 0; i < clientGames.length; i++)
-					getClient(i).testSendMessate(message);
 			}
 	}

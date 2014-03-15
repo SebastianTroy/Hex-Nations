@@ -6,7 +6,10 @@ import java.rmi.RemoteException;
 
 public interface RemoteMethods extends Remote
 	{
-		public void testSendMessate(String message);
+		
+		public void addClient(RemoteMethods client) throws RemoteException;
+		
+		public void sendTestMessage(String message) throws RemoteException;
 		
 		/**
 		 * This method can be called to see if the stub reference for this Object is still valid.

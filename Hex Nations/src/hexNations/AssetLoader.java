@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import tCode.LoadingScreen;
+import tools.Rand;
 import tools.WindowTools;
 
 /**
@@ -27,7 +28,7 @@ public class AssetLoader extends LoadingScreen
 		// Gameplay images
 		public static BufferedImage[][] tiles;
 		public static BufferedImage[] boundaries;
-		public static BufferedImage[] icons2;
+		public static BufferedImage[] icons;
 
 		// Gui
 		public static BufferedImage gui;
@@ -70,29 +71,32 @@ public class AssetLoader extends LoadingScreen
 						begin = ImageIO.read(imageClass.getResource(imageDirectory + "/begin.png"));
 
 						infoPop = new BufferedImage[3];
-						for (int i = 0; i < 3; i++)
+						for (int i = 0; i < infoPop.length; i++)
 							infoPop[i] = infoPopSheet.getSubimage(i * 40, 0, 40, 40);
 
-						menuButtons = new BufferedImage[3];
-						for (int i = 0; i < 3; i++)
-							menuButtons[i] = menuButtonSheet.getSubimage(0, i * 200, 800, 200);
+						menuButtons = new BufferedImage[4];
+						for (int i = 0; i < menuButtons.length; i++)
+							menuButtons[i] = menuButtonSheet.getSubimage(0, i * 150, 800, 150);
 
 						helpSlides = new BufferedImage[8];
-						for (int i = 0; i < 8; i++)
+						for (int i = 0; i < helpSlides.length; i++)
 							helpSlides[i] = helpSheet.getSubimage(i * 200, 0, 200, 200);
 
 						tiles = new BufferedImage[19][6];
-						for (int i = 0; i < 19; i++)
-							for (int j = 0; j < 6; j++)
+						for (int i = 0; i < tiles.length; i++)
+							for (int j = 0; j < tiles[0].length; j++)
 								tiles[i][j] = tileSheet.getSubimage(i * 40, j * 40, 40, 40);
 
-						icons2 = new BufferedImage[12];
-						for (int i = 0; i < 12; i++)
-							icons2[i] = iconsSheet.getSubimage(i * 40, 0, 40, 40);
+						icons = new BufferedImage[12];
+						for (int i = 0; i < icons.length; i++)
+							icons[i] = iconsSheet.getSubimage(i * 40, 0, 40, 40);
 
 						boundaries = new BufferedImage[6];
-						for (int i = 0; i < 6; i++)
+						for (int i = 0; i < boundaries.length; i++)
 							boundaries[i] = boundarySheet.getSubimage(i * 40, 0, 40, 40);
+						
+						// Set a random icon from the types of tiles available in game
+						Main.frame.addIconImage(AssetLoader.tiles[Rand.int_(0, AssetLoader.tiles.length)][0]);
 						
 						setPercentLoaded(100);
 						setCurrentTaskString("Done");

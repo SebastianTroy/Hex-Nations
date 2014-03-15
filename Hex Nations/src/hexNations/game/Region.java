@@ -1,4 +1,4 @@
-package hexNations.region;
+package hexNations.game;
 
 
 public class Region
@@ -10,5 +10,7 @@ public class Region
 		// public Player[] players;
 
 		public Region()
-			{}
+			{
+				
+			}
 	}
