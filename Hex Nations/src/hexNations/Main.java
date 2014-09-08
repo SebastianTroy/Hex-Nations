@@ -1,9 +1,9 @@
 package hexNations;
 
-import hexNations.network.RemoteMethods;
-import hexNations.network.Server;
-import hexNations.windows.GameWindow;
-import hexNations.windows.MenuWindow;
+import hexNations.windows.MainMenu;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -15,24 +15,6 @@ import tools.WindowTools;
  */
 public class Main extends TCode
 	{
-		/**
-		 * This is the name of the folder containing the images used by Troy's Code. It must contain all of the default texture files, however their contents
-		 * may be modified.
-		 */
-		public static String textureFolderName = "default";
-
-		/**
-		 * This object represents the game being played, it will be calculated separately both on the Server and Client side as every player's actions are
-		 * processed via the {@link Server} and passed to all Clients in order.
-		 */
-		public static GameWindow game;
-
-		/**
-		 * This object is our server which accepts remote method calls
-		 */
-		public static RemoteMethods server;
-		
-
 		/**
 		 * Program Entry
 		 */
@@ -53,12 +35,16 @@ public class Main extends TCode
 
 				try
 					{
-						begin(new AssetLoader(ImageIO.read(getClass().getResource(AssetLoader.imageDirectory + "/tiles.png"))), new MenuWindow());
+						begin(new AssetLoader(ImageIO.read(getClass().getResource(AssetLoader.imageDirectory + "/tiles.png"))), new MainMenu());
 					}
-				catch (Exception e)
+				catch (IOException e)
 					{
 						if (!DEBUG)
-							WindowTools.debugWindow("Couldn't begin the program.");
+							{
+								WindowTools.debugWindow("Couldn't find the loading screen logo.");
+								// Try again with a blank image
+								begin(new AssetLoader(new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)), new MainMenu());
+							}
 						else
 							e.printStackTrace();
 					}

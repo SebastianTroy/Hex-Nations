@@ -1,7 +1,7 @@
 package hexNations.game;
 
 
-public class Region
+public class Tile
 	{
 		// public Tile[][] tiles;
 
@@ -9,7 +9,7 @@ public class Region
 
 		// public Player[] players;
 
-		public Region()
+		public Tile()
 			{
 				
 			}

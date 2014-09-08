@@ -1,11 +1,24 @@
 package hexNations.network;
 
-import java.rmi.RemoteException;
+import tools.server.ChatClient;
+import tools.server.TClient;
 
-public abstract class Client implements RemoteMethods
+public class Client extends TClient<Packet>
 	{
+		public final ChatClient chatClient;
+
+		public Client(String hostAddress, String playerName)
+			{
+				super(hostAddress, Server.PORT);
+				if (isConnected())
+					chatClient = new ChatClient(hostAddress, playerName);
+				else
+					chatClient = null;
+			}
 
 		@Override
-		public void checkAlive() throws RemoteException
-			{}
+		protected void processObject(Packet object)
+			{
+				// TODO Auto-generated method stub
+			}
 	}

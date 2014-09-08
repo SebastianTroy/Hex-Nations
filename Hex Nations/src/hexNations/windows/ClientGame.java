@@ -2,10 +2,10 @@ package hexNations.windows;
 
 import tCode.RenderableObject;
 
-public class GameWindow extends RenderableObject
+public class ClientGame extends RenderableObject
 	{
 		
-		public GameWindow()
+		public ClientGame()
 			{
 				
 			}
