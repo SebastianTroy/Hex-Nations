@@ -6,7 +6,6 @@ import hexNations.network.Client;
 import hexNations.network.Server;
 import hexNations.network.packet.LobbyData;
 import hexNations.network.packet.LobbyPlayer;
-import hexNations.network.packet.LobbyPlayerUpdate;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
